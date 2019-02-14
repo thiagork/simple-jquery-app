@@ -1,123 +1,133 @@
 * {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 body {
-    background-color: #fafafa;
-    font-family: 'Lato', sans-serif;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 1.6;
-    color: black;
+  background-color: #fafafa;
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.6;
+  color: black;
 }
 
 header {
-    display: flex;
-    background-color: rgb(43, 127, 195);
-    color: white;
-    align-items: center;
+  display: flex;
+  background-color: #2b7fc3;
+  color: white;
+  align-items: center;
 }
 
 header .header__item {
-    object-fit: contain;
-    padding: 10px;
-    max-height: 100px;
+  object-fit: contain;
+  padding: 10px;
+  max-height: 100px;
 }
 
 header .search-bar {
-    flex-grow: 1;
-    text-align: right;
+  flex-grow: 1;
+  text-align: right;
 }
 
-header .header__item .header__item--child {
-    padding: 5px;
+header .header__item--child {
+  border-radius: 0.5em;
+  border: none;
+  padding: 0.4em;
 }
 
+#job-description {
+  width: 21em;
+}
+
+#location {
+  width: 14em;
+}
 
 .main-content {
-    width: 90%;
-    max-width: 300px;
-    margin: 0 auto;
-    text-align: left;
+  width: 90%;
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: left;
 }
 
 .main-content .item-list {
-    text-align: left;
-    list-style-type: none;
+  text-align: left;
+  list-style-type: none;
+  padding-top: 5px;
 }
 
 .item-list .item-list__item {
-    background-color: #b1b1b1;
-    margin-bottom: 5px;
-    padding: 5px;
+  background-color: #fafafa;
+  margin-bottom: 5px;
+  padding: 5px;
+  padding-left: 20px;
+  border: 0.5px solid black;
+  border-radius: 2em;
 }
 
 .item-list__item__button {
-    border: none;
-    padding: 0;
-    color: inherit;
-    background: none;
-    font: inherit;
-    text-align: left;
+  width: 100%;
+  border: none;
+  padding: 0;
+  color: inherit;
+  background: none;
+  font: inherit;
+  text-align: left;
 }
 
 #modal-container {
-    position: fixed;
-    padding: 20px;
-    box-sizing: border-box;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    
-    /* to show it above other content */
-    z-index: 999; 
-    
-    /* to allow scrolling if the screen is not high enough*/
-    overflow: auto; 
-    
-    /* this is used to center the modal */
-    display: none;
-    text-align: center;
-  }
+  position: fixed;
+  padding: 20px;
+  box-sizing: border-box;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  
+  /* to show it above other content */
+  z-index: 999; 
+  
+  /* to allow scrolling if the screen is not high enough*/
+  overflow: auto; 
+  
+  /* this is used to center the modal */
+  display: none;
+  text-align: center;
+}
 
-  #modal-container.is-visible {
-    /* CSS for modal container - add your own desired CSS styles here */
-    display: block;
-  }
-  
-  .modal {
-    margin: auto;
-    display: inline-block;
-    box-sizing: border-box;
-    background: #fff;
-    padding: 15px;
-    width: 100%;
-    max-width: 700px;
-    text-align: left;
-  }
-  
-  .modal-close {
-    float: right;
-    -webkit-appearance: none;
-    border: 0;
-    background: none;
-    color: #777;
-    text-decoration: underline;
-  }
-  
-  .modal h1 {
-    margin-top: 0;
-  }
-  
-  .modal p {
-    margin-bottom: 0;
-  }
+.modal {
+  margin: auto;
+  display: inline-block;
+  box-sizing: border-box;
+  background: #fff;
+  padding: 15px;
+  width: 100%;
+  max-width: 700px;
+  text-align: left;
+}
 
-  .modal-img {
-      float: center;
-      text-align: center;
+.modal-close {
+  float: right;
+  -webkit-appearance: none;
+  border: 0;
+  background: none;
+  color: #777;
+  text-decoration: underline;
+}
+
+.modal h1 {
+  margin-top: 0;
+}
+
+.modal p {
+  margin-bottom: 0;
+  padding: 5px;
+}
+
+.modal-img {
+  float: center;
+  text-align: center;
 }

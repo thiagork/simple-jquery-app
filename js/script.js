@@ -10,9 +10,13 @@ let programWrapper = (() => {
     
     function makeRequest(url) {
         // Async function (returns promise)
-        return $.ajax(url);
+        return $.getJSON(url);
     }
     
+    function getUserInput() {
+        return ({'description': $('#job-description').val(), 'location': $('#location').val()});
+    }
+
     function getAll() {
         return searchResults;
     }
@@ -26,7 +30,7 @@ let programWrapper = (() => {
         let $newListItem = $('<li class="item-list__item"></li>');
         $('.item-list').append($newListItem);
         
-        let $newButtonInsideListItem = $(`<button class="item-list__item__button" id="${item.id}">${item.title}</button>`).on('click', showModal(item.id));
+        let $newButtonInsideListItem = $(`<button class="item-list__item__button" id="${item.id}">${item.title}</button>`).on('click', () => {showModal(item)});
         $('.item-list__item:last-child').append($newButtonInsideListItem);
     }
     
@@ -56,25 +60,27 @@ let programWrapper = (() => {
         return string.replace(/\s+/g, '+')
     }
     
-    function showDetails(item) {
-        
-    }
+    function showModal(item) {
+        let $modal = $(`<div class='modal'></div>`);
+        // .html('') clears all the content of #modal-container before adding new stuff
+        $('#modal-container').html('').append($modal);
 
-    function createModalWithDetails(responseFromAPI) {
+        let $modalCloseButton = $(`<button class='modal-close'>Close</button>`);
+        $modal.append($modalCloseButton.on('click', hideModal));
+
+        let $modalTitle = $(`<h1 id='modal-title'>${item.title}</h1>`);
+        let $modalCompany = $(`<p id='modal-company'>Company: ${item.company}</p>`);
+        let $modalDescription = $(`<p id='modal-description'>Job Description: ${item.description}</p>`);
+        let $modalDateOfCreation = $(`<p id='modal-date-of-creation'>This job post was created on ${item.dateOfCreation}</p>`);
+        let $modalTypeAndLocation = $(`<p id='modal-type-and-location'>${item.type} in ${item.location}</p>`);
+
+        $modal.append($modalTitle).append($modalCompany).append($modalDescription).append($modalDateOfCreation).append($modalTypeAndLocation);
         
+        $('#modal-container').show();
     }
     
-    function showModal(title, text) {
-        
-        
-    }
-    
-    function hideModal(resolveOrReject=null) {
-        
-    }
-    
-    function showDialog(title, text, resolve, reject) {
-        
+    function hideModal() {
+        $('#modal-container').hide();
     }
     
     function main () {
@@ -85,6 +91,35 @@ let programWrapper = (() => {
                 populatePageWithList();
             }
         );
+        
+        // Code for making the search
+        $('#location').keydown(e => {
+            if (e.keyCode === 13) {
+                makeSearch(getUserInput());
+            }
+        });
+        $('#job-description').keydown(e => {
+            if (e.keyCode === 13) {
+                makeSearch(getUserInput());
+            }
+        });
+        $('#search-button').on('click', () => {
+            makeSearch(getUserInput());
+        });
+
+        // Code for closing modal by pressing 'Esc'
+        $(window).keydown(e => {
+            if (e.keyCode === 27 && $('#modal-container')[0].style.display === 'block') {
+                hideModal();
+            }
+        });
+
+        // Code for closing modal by clicking outside of the modal
+        $(window).on('click', e =>{
+            if (e.target === $('#modal-container')[0]) {
+                hideModal();
+            };
+        });
     }
     
     
@@ -93,11 +128,12 @@ let programWrapper = (() => {
         addListItem: addListItem,
         getAll: getAll,
         loadList: loadList,
-        showDetails: showDetails,
         showModal: showModal,
         hideModal: hideModal,
-        showDialog: showDialog,
         main: main,
-        replaceSpaces: replaceSpaces
+        replaceSpaces: replaceSpaces,
+        makeRequest: makeRequest,
+        populatePageWithList: populatePageWithList,
+        getUserInput, getUserInput
     };
 }) ();
