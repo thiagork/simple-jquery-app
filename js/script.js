@@ -1,7 +1,5 @@
 let programWrapper = (() => {
-    let $searchDescription = 'node';
-    let $searchLocation = 'hamburg';
-    let apiUrl = 'https://cors.io/?https://jobs.github.com/positions.json?description=python&location=new+york';
+    const apiUrl = 'https://cors.io/?https://jobs.github.com/positions.json';
     let searchResults = [];
     
     
@@ -14,7 +12,7 @@ let programWrapper = (() => {
     }
     
     function getUserInput() {
-        return ({'description': $('#job-description').val(), 'location': $('#location').val()});
+        return ({'description': replaceSpaces($('#job-description').val()), 'location': replaceSpaces($('#location').val())});
     }
 
     function getAll() {
@@ -30,7 +28,9 @@ let programWrapper = (() => {
         let $newListItem = $('<li class="item-list__item"></li>');
         $('.item-list').append($newListItem);
         
-        let $newButtonInsideListItem = $(`<button class="item-list__item__button" id="${item.id}">${item.title}</button>`).on('click', () => {showModal(item)});
+        let $newButtonInsideListItem = $(`<button class="item-list__item__button" id="${item.id}">${item.title}</button>`).on('click', () => {
+            showModal(item);
+        });
         $('.item-list__item:last-child').append($newButtonInsideListItem);
     }
     
@@ -47,17 +47,17 @@ let programWrapper = (() => {
                 dateOfCreation: item.created_at
             };
             add(data);
-        })
+        });
     }
 
-    function populatePageWithList () {
+    function populatePageWithList() {
         getAll().forEach(item => {
             addListItem(item);
         });
     }
 
     function replaceSpaces(string) {
-        return string.replace(/\s+/g, '+')
+        return string.replace(/\s+/g, '+');
     }
     
     function showModal(item) {
@@ -82,43 +82,66 @@ let programWrapper = (() => {
     function hideModal() {
         $('#modal-container').hide();
     }
-    
-    function main () {
-        makeRequest(apiUrl).then(
+
+    function makeSearch() {
+        let description = getUserInput().description;
+        let location = getUserInput().location;
+        let searchUrl = apiUrl;
+
+        // Reset current search before making a new one
+        $('.item-list').html('');
+        searchResults = [];
+
+        // Checks if the user typed description/location and sets the url accordingly
+        if (description === '' && location !== '') {
+            searchUrl = `${apiUrl}?location=${location}`;
+        }
+        if (description !== '' && location === '') {
+            searchUrl = `${apiUrl}?description=${description}`;
+        }
+        if (description !== '' && location !== '') {
+            searchUrl = `${apiUrl}?description=${description}&location=${location}`;
+        }
+
+        // Make new request and load it into page
+        makeRequest(searchUrl).then(
             // Executes all the functions that depend on that request
             responseFromAPI => {
                 loadList(responseFromAPI);
                 populatePageWithList();
             }
         );
+    }
+    
+    function main() {
         
-        // Code for making the search
+        // Listeners for making the search
         $('#location').keydown(e => {
             if (e.keyCode === 13) {
-                makeSearch(getUserInput());
+                makeSearch();
             }
         });
         $('#job-description').keydown(e => {
             if (e.keyCode === 13) {
-                makeSearch(getUserInput());
+                makeSearch();
             }
         });
         $('#search-button').on('click', () => {
-            makeSearch(getUserInput());
+            makeSearch();
         });
 
-        // Code for closing modal by pressing 'Esc'
+        // Listener for closing modal by pressing 'Esc'
         $(window).keydown(e => {
             if (e.keyCode === 27 && $('#modal-container')[0].style.display === 'block') {
                 hideModal();
             }
         });
 
-        // Code for closing modal by clicking outside of the modal
+        // Listener for closing modal by clicking outside of the modal
         $(window).on('click', e =>{
             if (e.target === $('#modal-container')[0]) {
                 hideModal();
-            };
+            }
         });
     }
     
@@ -134,6 +157,6 @@ let programWrapper = (() => {
         replaceSpaces: replaceSpaces,
         makeRequest: makeRequest,
         populatePageWithList: populatePageWithList,
-        getUserInput, getUserInput
+        getUserInput: getUserInput
     };
 }) ();
