@@ -23,7 +23,7 @@ header {
 header .header__item {
   object-fit: contain;
   padding: 10px;
-  max-height: 100px;
+  /* max-height: 100px; */
 }
 
 header .search-bar {
@@ -64,7 +64,7 @@ header .header__item--child {
   padding: 5px;
   padding-left: 20px;
   border: 0.5px solid black;
-  border-radius: 2em;
+  border-radius: 0.5em;
 }
 
 .item-list__item__button {
@@ -104,6 +104,8 @@ header .header__item--child {
   box-sizing: border-box;
   background: #fff;
   padding: 15px;
+  padding-left: 25px;
+  padding-right: 25px;
   width: 100%;
   max-width: 700px;
   text-align: left;
@@ -130,4 +132,38 @@ header .header__item--child {
 .modal-img {
   float: center;
   text-align: center;
+}
+
+@media all and (max-width: 500px) {
+  .main-content {
+      max-width: 80%;
+  }
+
+  header {
+    flex-direction: column;
+  }
+
+  header .header__item {
+    text-align: center;
+    padding: 0px;
+  }
+  
+  header .header__item--child {
+    border-radius: 0.5em;
+    border: none;
+    padding: 0.4em;
+    margin: 5px;
+  }
+
+  #job-description {
+    width: 90%;
+  }
+  
+  #location {
+    width: 90%;
+  }
+
+  #search-button {
+    width: 50%;
+  }
 }
